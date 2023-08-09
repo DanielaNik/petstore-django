@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:https="http://www.w3.org/1999/xhtml" style="height: 100%">
+<head>
+    <meta charset="UTF-8">
+    <title>Amigo Pet Store</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+</head>
+<body>
+{% include 'navbar.html' %}
+<div class="container-fluid" style="background-color:  #f2f3fe">
+    <div class="container m-auto">
+    <div class="row text-center p-5">
+        <div style="background: url(https://res.cloudinary.com/jerrick/image/upload/v1506286787/o5ehdlleg1uxc03d3k0v.jpg); background-size: cover; background-position: center; height: 600px; border-radius: 10px; object-fit: cover; opacity: 0.9">
+                    <h3 class="text-primary pt-1 display-3">WELCOME TO AMIGO PET STORE!</h3>
+        </div>
+        <h5 class="mt-2 helvetica" style="opacity: 0.9; color: #002485;">Where you can find the best products for your best friend.</h5>
+    </div>
+    </div>
+</div>
+</div>
+
+<div class="container-fluid" style="background-color: #ba9eff;">
+<div class="container m-auto">
+<div class="row">
+    {% for cat in main_categories %}
+    <div class="col m-3 mt-5 pt-2" style="background-color: #f2f3fe; border-radius: 10px">
+        <a href="{% url 'category_detail' category_name=cat.name %}" class="text-dark" style="text-decoration: none">
+            <img src="{{MEDIA_URL}}{{cat.photo.url}}">
+            <p class="text-center pt-2">{{cat.name}}</p>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+</div>
+            <h3 class="mt-5 pb-3 text-light text-center display-3">Our newest products:</h3>
+    </div>
+
+
+    <div style="width:100%;height: 35rem;background: url(https://previews.123rf.com/images/vasilkovs/vasilkovs2001/vasilkovs200100040/137938637-pet-store-for-dogs-cats-birds-and-other-domestic-animals-seamless-pattern-background-black-and.jpg);background-repeat: repeat; background-position: center; background-size: 300px 300px; opacity: 0.9">
+<div class="container">
+    <div class="row pt-5">
+    {% for prod in products %}
+        <div class="col-3 card border-dark ms-5 me-5 mt-3">
+            <img src="{{MEDIA_URL}}{{prod.photo.url}}" style="background-size:cover;background-position: center;width: 100%; height: 300px; object-fit: cover" class="card-img-top" alt="...">
+            <div class="card-body">
+            <h5 class="card-title text-primary">{{prod.name}}</h5>
+                <p class="card-text">{{prod.category}}</p>
+            <p>Price: ${{prod.price}}
+            <form method="POST" action="{% url 'shopping_cart_add' product_id=prod.id %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-outline-info float-end ms-2"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-fill" viewBox="0 0 16 16">
+  <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+</svg></button>
+                </form>
+            <form method="POST" action="{% url 'wishlistAdd' product_id=prod.id%}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-outline-danger float-end"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+</svg></button>
+                </form>
+            </p>
+
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+</div>
+
+{% include 'popups.html' %}
+
+
+</body>
+</html>
